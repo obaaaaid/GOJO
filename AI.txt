@@ -1,0 +1,398 @@
+10
+#DFS algorithm
+
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(start)
+
+    print(start)
+
+    for next in graph[start] - visited: 
+        dfs(graph, next, visited)
+    return visited
+
+
+graph = {'0': set(['1', '2']),
+	 '1': set(['0', '3', '4']), 
+	 '2': set(['0']),
+	 '3': set(['1']),
+	 '4': set(['2', '3'])}
+dfs(graph, '0')
+
+
+09
+import collections
+#BFS algorithm
+
+def bfs(graph, root):
+
+    visited, queue = set(), collections.deque([root]) 
+    visited.add(root)
+
+    while queue:
+        vertex = queue.popleft() 
+        print(str(vertex) + "", end="")
+
+        for neighbour in graph[vertex]: 
+            if neighbour not in visited: 
+               visited.add(neighbour) 
+	       queue.append(neighbour)
+if __name__ '__main__':
+    graph (0: [1, 2], 1: [2], 2: [3], 3: [1, 2]} 
+    print("Following is Breadth First Traversal: ")
+    bfs(graph, 0)
+
+
+08(clustering algorithm)
+# synthetic classification dataset
+from numpy import where
+from sklearn.datasets import make_classification
+from matplotlib import pyplot
+# define dataset
+X, y = make_classification(n_samples=1000, n_features=2, n_informative=2, n_redundant=0,
+ n_clusters_per_class=1, random_state=4)
+# create scatter plot for samples from each class
+for class_value in range(2):
+    # get row indexes for samples with this class
+    row_ix = where(y == class_value)
+    # create scatter of these samples
+    pyplot.scatter(X[row_ix, 0], X[row_ix, 1])
+
+#show the plot
+pyplot.show()
+
+
+
+07(supervised & unsupervised learning)
+
+ import numpy as np
+ import matplotlib.pyplot as plt
+ import pandas as pd
+ from sklearn.linear model import LogisticRegression
+ from sklearn import datasets
+
+ # Importing the dataset 
+ dataset pd.read_csv("iris.csv")
+ dataset.describe()
+
+ # Splitting the dataset into the Training set and Test set
+ X = dataset.iloc[:, [0,1,2, 3]].values
+ y = dataset.iloc[:, 4].values
+ from sklearn.model selection import train_test split
+ X_train, X_test, y_train, y_test = train_test_split(X, y, test size 0.25, random state = 0)
+ from sklearn.preprocessing import StandardScaler
+ sc = StandardScaler()
+ X_train = sc.fit_transform(X train)
+ X_test = sc.transform(X_test)
+
+# Fitting Logistic Regression to the Training set
+classifier = LogisticRegression(randon state, solver-'lbfgs', multi_class='auto')
+classifier.fit(X train, y train)
+
+# Predicting the Test set results
+y_pred classifier.predict(X_test)
+# Predict probabilities
+probs_y=classifier.predict_proba(x_test)
+from sklearn.metrics import confusion_matrix 
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+#Plot confusion matrix
+import seaborn as sns
+ import pandas as pd
+
+#confusion matrix sns heatmap
+ax = plt.axes()
+ df_cm = cm
+ sns.heatmap(df_cm, annot = True, annot_kws=("size": 30), fat-'d',cmap="Blues", ax = ax )
+ax.set_title('Confusion Matrix')
+ plt.show()
+
+
+
+import matplotlib.pyplot as plt
+ import pandas as pd
+ import numpy as np
+ customer_data = pd.read_csv ('Mall_Customers.csv')
+ customer_data.shape
+ customer_data.head()
+ data = customer_data.iloc[:, 3:5].values
+ import scipy cluster.hierarchy as shc
+ plt.figure(figsize=(10, 7))
+ plt.title("Customer Dendograms")
+ dend = shc.dendrogram(shc.linkage(data, method='ward'))
+ from sklearn.cluster import AgglomerativeClustering 
+ cluster = AgglomerativeClustering(n_clusters-5, affinity-'euclidean", linkage="ward")
+ cluster.fit_predict(data)
+ plt.figure(figsize=(10, 7))
+ plt.scatter(data[:,0], data[:,1], c=cluster.labels, cmap='rainbow)
+ plt.show()
+
+
+
+06(fuzzy based application)
+
+import numpy as np
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+# New Antecedent/Consequent objects hold universe variables and mer
+quality = ctrl.Antecedent(np.arange(0, 11, 1), 'quality')
+service = ctrl.Antecedent(np.arange(0, 11, 1), 'service')
+tip = ctrl.Consequent(np.arange(0, 26, 1), 'tip')
+quality.automf(3)
+service.automf(3)
+
+tip['low'] = fuzz.trimf(tip.universe, [0, 0, 13])
+tip['medium'] = fuzz.trimf(tip.universe, [0, 13, 25])
+tip['high'] = fuzz.trimf(tip.universe, [13, 25, 25])
+
+quality['average'].view()
+service.view()
+tip.view()
+
+rulel = ctrl.Rule(quality['poor'] | service['poor'], tip['low"])
+rule2 = ctrl.Rule(service['average'], tip['medium"])
+rule3 = ctrl.Rule(service['good'] | quality['good'], tip['high'])
+rulel.view()
+
+rulel = ctrl.Rule(quality['poor'] | service['poor'], tip['low'])
+rule2 = ctrl.Rule(service['average'], tip['medium'])
+rule3 = ctrl.Rule(service['good'] | quality['good'], tip['high'])
+rulel,view()
+
+tipping_ctrl = ctrl.Controlsystem([rulei, rulez, rule3]) 
+tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
+tipping.input['quality'] = 6.5
+tipping.input['service'] = 9.8
+tipping.compute()
+print(tipping.output['tip'])
+tip.view(sim-tipping)
+
+
+
+
+05(rule based system)
+man(lou).
+man(petet. 
+man(ian).
+man(peter)
+
+woman (pauline). 
+woman (cathy).
+woman (lucy).
+
+parent (ian, lucy).
+parent (ian, petes)
+parent (cathy,ian).
+parent (pete, ian).
+parent (lou, pete).
+parent (lou, pauline).
+
+mother (X,Y) :- woman(x), parent (X,Y)(X\=Y). 
+father (X,Y) :- man (X), parent (X,Y)(X\=Y).
+
+sibling (X,Y) :- parent (Z,X), parent (Z,Y),(X\=Y). 
+brother (X,Y) :- man(X), sibling(X,Y),(X\=Y).
+sister (X, Y) :- woman (X), sibling (X,Y),(X\=Y).
+
+grandfather (X,Y) :- father(X,Z),parent (Z,Y),(X\=Y).
+grandmother (X,Y) :- mother(X,Z),parent (Z,Y),(X\=Y).
+
+
+ancestor (X,Y) :- parent (X,Y),(X\=Y).
+ancestor (X,Y) :- parent (X,Z), ancestor(Z,Y),(X\=Y).
+
+
+
+04(conditional probability and joint probability)
+
+def conditional():
+    pass stats = 0.15
+    pass_codingWStats = 0.60
+    pass_codingWOStats = 0.40
+    prob_both = pass_stats * pass_codingWStats
+    print("The probability that applicant passes both is", round(prob_both, 3))
+    prob_coding = (prob both) + ((1-pass_stats)*pass_codingWOStats)
+    print("Probability that he/she passes only coding is", round(prob_coding, 3)) 
+    stats_given_coding = prob_both/prob_coding
+    print("Conditional probabilty is", round(stats_given_coding, 3))
+
+print("Hey Obaid")
+conditional()
+ 
+
+ import numpy as np
+ import matplotlib.pyplot as plt
+ import seaborn as sns
+ import pandaş as pd
+ sns.set()
+ data = pd.read_csv('data.csv', header=None, names=['x', 'y'])
+ jointplot(data['x'], data['y'], kind='kde').plot joint(sns.scatterplot)
+ plt.show()
+
+
+03(bayes theorem using python)
+
+def drug_user(
+	prob th=0.8,
+	sensitivity=0.79, specificity=0.79,
+	prevelance=0.62,
+	verbose=True):
+
+#Computes the posterior using Bayes' rule
+    p_user = prevelance
+    p_non_user = 1-prevelance
+    p_pos_user = sensitivity
+    p_neg_user = specificity
+    p_pos_non_user = 1-specificity
+
+    num = p_pos_user*p_user
+    den = p_pos_user*p_user+p_pos_non_user*p_non_user
+
+    prob = num/den
+    if verbose:
+         if prob > prob th:
+             print("The test-taker could be an user")
+	 else:
+	     print("The test-taker may not be an user")
+    return prob
+
+ print("Shaikh Obaid")
+ p=drug_user(prob_th=0.5, sensitivity=0.97, specificity=0.95, prevelance=0.005)
+ print("Probability of the test-taker being a drug user is:", round(p.3))
+
+
+02(bot using aiml)
+
+import aiml
+kernel aiml.Kernel()
+kernel.learn("std2-startup.xml") 
+kernel.respond("load prac 2")
+
+while True:
+    input_text = input("> Human: ")
+    response = kernel.respond (input_text)
+    print("> Bot: "+response
+
+
+std2-startup.xml.....
+
+<aiml version="1.0.1" encoding="UTF-8">
+    <!-- std-startup.xml -->
+    <category>
+        <!-- Pattern to match in user input -->
+        <!-- If user enters "LOAD AIML B" -->
+	<pattern>LOAD PRAC 2</pattern>
+
+	<!-- Template is the response to the pattern -->
+	<!-- This learn an aiml file -->
+	<template>
+	    <learn>prac2_chat.aiml</learn>
+	    <!-- You can add more aiml files here -->
+	    <!--<learn>more_aiml.aiml</learn>-->
+	</template>
+    </category>
+</aiml>
+
+
+<category>
+  <pattern>MONDAY</pattern>
+   <template>the day of the week before Tuesday and following Sunday</template>
+<category>
+
+<category>
+  <pattern>MONDAY</pattern>
+    <template>the day of the week before Wednesday and following Monday</template>
+</category>
+
+<category>
+  <pattern>WEDNESDAY</pattern>
+    <template>the day of the week before Thursday and following Tuesday</template>
+</category> 
+ </template>
+
+</category>
+   <pattern>THURSDAY</pattern>
+     <template>the day of the week before Friday and following Wednesday</template>
+</category>
+
+</category>
+   <pattern>FRIDAY</pattern>
+     <template>the day of the week before Saturday and following Thursday</template>
+</category>
+
+<category>
+  <pattern>SATURDAY</pattern>
+    <template>the day of the week before Sunday and following Friday. </template>
+</category>
+</aiml>
+
+
+
+01(expert system using aiml)
+
+import aiml
+
+kernel aiml.Kernel()
+kernel.learn("std-startup.xml")
+kernel.respond("load aiml b)
+
+while True:
+    input_text = input(">Human: ")
+    response = kernel.respond (input_text)
+    print(">Bot: "+response)
+
+std-startup.xml
+
+ <aiml version="1.0.1" encoding="UTF-8">
+     <!-- std-startup.xml -->
+     <category>
+         <!-- Pattern to match in user Input -->
+         <!-- If user enters "LOAD AIML 8" -->
+	 <pattern>LOAD AIML B</pattern>
+
+	 <!-- Template is the response to the pattern -->
+	 <1-- This learn an aiml file -->
+	 <template>
+	     <learn>basic_chat.aiml</learn>
+	     <!-- You can add more aiml files here -->
+	     <!--<learn>more_aiml.aiml</learn>-->
+         </template>
+     </category>
+</aiml>
+
+
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- basic_chat.aiml -->
+
+    <category>
+	<pattern>HELLO *</pattern>
+	<template>
+	    Well, hello obaid!
+	</template>
+    /<category>
+
+    <category>
+	<pattern>WHAT ARE YOU</pattern>
+	<template>
+	    I'm a bot, and I'm silly!
+	</template>
+    </category>
+
+    <category>
+	<pattern>WHAT DO YOU DO</pattern>
+	<template>
+	    I'm here to annoy you!
+	</template>
+    </category>
+
+    <category>
+	<pattern>WHO I AM</pattern>
+	<template>
+	    You are Shaikh Obaid, and you working on Web Developer...
+	</template>
+    <category>
+</aiml >
+</category>
+</aiml>
